@@ -15,4 +15,4 @@ submit = st.button("Submit")
 
 if submit:
     st.write(f"Course name is: {name}")
-    st.write(f"database name: {os.getenv("DB_NAME")}")
+    st.write(f"Database name: {os.getenv("DB_NAME")}")

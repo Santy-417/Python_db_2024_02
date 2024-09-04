@@ -6,6 +6,12 @@
     .venv/bin/Activate
 ```
 
+## Activar permisos para inicia el entorno, solo sino lo 
+´´´bash
+    Set-ExecutionPolicy RemoteSigned
+    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+´´´
+
 ## Install dependencies
 Create file *requirements.txt*
 
@@ -18,7 +24,10 @@ Create file *requirements.txt*
 ```bash
     streamlit run app.py 
 ```
-
+## Install openpyxl
+```
+    pip install openpyxl
+```
 
 # Utilities
 ## Steps to remove virtual environment

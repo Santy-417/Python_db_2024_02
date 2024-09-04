@@ -31,4 +31,5 @@ st.title("Upload students attendance list Excel file")
 uploaded_file = st.file_uploader("Attendance list Excel file", type=["xls", "xlsx"])
 
 if uploaded_file is not None:
-    st.write("se ha cargado con exito.")
+    st.write("file was uploaded successfully.")
+    _extract_students_from_excel(uploaded_file)

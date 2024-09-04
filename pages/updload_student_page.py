@@ -1,45 +1,54 @@
 import os
 import streamlit as st
+import pandas as pd
 import mysql.connector
 from mysql.connector import Error
+from course_db_helper import get_all_the_courses
+from student_db_helper import insert_students_in_bulk
 
-st.title("Crate student")
-code = st.text_input(label="Student code")
-full_name = st.text_input(label='Student name')
-emails = st.text_input(label='Email address')
-course_id = st.text_input(label="Course id")
-submit = st.button("Submit")
+st.title("Upload students")
 
-if submit:
-    st.write(f"Student name is: {full_name}")
-    st.write(f"database name: {os.getenv("DB_NAME")}")
+def extract_students_from_excel(excel_file, course_id):
+    """Extracts student information from the provided Excel file."""
     try:
-        connection = mysql.connector.connect(
-            host=os.getenv("DB_HOST"),
-            user=os.getenv("DB_USER"),
-            password=os.getenv("DB_PASSWORD"),
-            database=os.getenv("DB_NAME")
-        )
-        if connection.is_connected():
-            cursor = connection.cursor(dictionary=True)
-            query = """
-            INSERT INTO students (code, full_name, emails, course_id)
-            VALUES (%s, %s, %s, %s)
-            """
-            values = (
-                code,
-                full_name,
-                emails,
-                course_id
-            )
+        df = pd.read_excel(excel_file)
+    except Exception as e:
+        st.write(f"Error reading the Excel file: {e}")
+        return []
 
-            cursor.execute(query, values)
-            connection.commit()
+    df = df.rename(columns={
+        'Código': 'code',
+        'Nombre': 'first_name',
+        'Apellidos': 'last_name',
+        'Email': 'email',
+        'Email Institucional': 'institutional_email'
+    })
 
-            cursor.close()
+    df['code'] = df['code'].astype(str)
+    df['fullName'] = df['first_name'] + ' ' + df['last_name']
+    df['emails'] = df['email'] + ',' + df['institutional_email']
 
-            st.write("The student has been successfully saved")
+    df = df[['code', 'fullName', 'emails']]
 
-    except Error as e:
-        st.error("Error connecting to database")
-        connection = None
+    insert_students_in_bulk(df, course_id, table_name='students')
+    
+    st.write(df)
+
+# Obtener los cursos
+courses = get_all_the_courses()
+
+# Crear un diccionario para mapear IDs de cursos a sus nombres
+course_dict = {course['id']: course['name'] for course in courses}
+course_ids = list(course_dict.keys())
+
+# Crear el dropdown con los IDs como valor de selección y los nombres como valor de visualización
+selected_course_id = st.selectbox("Select a course", course_ids, format_func=lambda id: course_dict[id])
+
+# Subir el archivo de Excel
+uploaded_file = st.file_uploader("Attendance list Excel file", type=["xls", "xlsx"])
+
+# Botón para procesar la carga y mostrar los valores
+if st.button("Save students"):
+    if uploaded_file is not None:
+        st.write("Students have been created successfully")
+        extract_students_from_excel(uploaded_file, selected_course_id)

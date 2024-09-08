@@ -1,7 +1,8 @@
 pandas
 xlrd
 python-dotenv
-pydantic 
+pydantic
+openpyxl
 
 langchain
 langchain_openai

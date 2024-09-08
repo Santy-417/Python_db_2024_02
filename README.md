@@ -3,15 +3,13 @@
 ## Create and activate Python virtual environment
 ```bash
     python -m venv venv
-    .venv/bin/Activate
+    .venv/bin/Activate - .\venv\Scripts\Activate
 ```
-
 ## Activar permisos para inicia el entorno, solo sino lo 
 ´´´bash
     Set-ExecutionPolicy RemoteSigned
     Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ´´´
-
 ## Install dependencies
 Create file *requirements.txt*
 
@@ -23,10 +21,6 @@ Create file *requirements.txt*
 
 ```bash
     streamlit run app.py 
-```
-## Install openpyxl
-```
-    pip install openpyxl
 ```
 
 # Utilities

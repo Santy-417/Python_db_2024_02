@@ -4,8 +4,5 @@ venv
 
 db-creation.sql
 
-Lista.xlsx
-Lista2.xlsx
-
-Ordes.xlsx
+Orders.xlsx
 Products.xlsx

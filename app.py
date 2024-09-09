@@ -19,7 +19,6 @@ if uploaded_files:
     st.write(f"{len(uploaded_files)} files were uploaded successfully.")
     
     if len(uploaded_files) == 2:
-        # Verifica si los dos archivos son iguales comparando sus nombres
         if uploaded_files[0].name == uploaded_files[1].name:
             st.write("Error: Both files are the same. Please upload two different files.")
         else:

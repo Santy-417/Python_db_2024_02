@@ -20,20 +20,15 @@ def insert_merged_data_in_bulk(df, order_id, table_name='merged_data'):
             st.write("Connected to the database successfully.")
             cursor = connection.cursor()
 
-            # Prepare the insert query
             insert_query = f"""
             INSERT INTO {table_name} (OrderID, ProductID, OrderDate, Quantity, CustomerName, DeliveryAddress, ProductName, Category, Price, Size)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """
 
-            # Convert DataFrame to list of tuples with the correct order
             merged_data = df[['OrderID', 'ProductID', 'OrderDate', 'Quantity', 'CustomerName', 'DeliveryAddress', 'ProductName', 'Category', 'Price', 'Size']].to_records(index=False).tolist()
 
-
-            # Execute the insert query in bulk
             cursor.executemany(insert_query, merged_data)
             
-            # Commit the transaction
             connection.commit()
 
             st.write(f"{cursor.rowcount} rows inserted successfully.")
@@ -44,7 +39,7 @@ def insert_merged_data_in_bulk(df, order_id, table_name='merged_data'):
             connection.rollback()
 
     finally:
-        if cursor is not None:
+        if cursor:
             cursor.close()
-        if connection is not None and connection.is_connected():
+        if connection and connection.is_connected():
             connection.close()

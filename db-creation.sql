@@ -1,27 +1,14 @@
--- Script para crear la base de datos y las tablas necesarias
-CREATE DATABASE IF NOT EXISTS college_manager;
-
-USE college_manager;
-
--- Tabla para almacenar la información del curso
-CREATE TABLE
-    IF NOT EXISTS courses (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(255) NOT NULL,
-        start_date DATE NOT NULL,
-        end_date DATE NOT NULL,
-        cut1_percentage FLOAT NOT NULL,
-        cut2_percentage FLOAT NOT NULL,
-        cut3_percentage FLOAT NOT NULL
-    );
-
--- Tabla para almacenar la lista de estudiantes
-CREATE TABLE
-    IF NOT EXISTS students (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        code VARCHAR(255) NOT NULL,
-        full_name VARCHAR(255) NOT NULL,
-        emails VARCHAR(255) NOT NULL,
-        course_id INT,
-        FOREIGN KEY (course_id) REFERENCES courses (id) ON DELETE CASCADE
-    );
+CREATE TABLE 
+    IF NOT EXISTS merged_data (
+    OrderID INT NOT NULL,
+    ProductID INT NOT NULL,
+    OrderDate DATETIME NOT NULL,
+    Quantity INT NOT NULL,
+    CustomerName VARCHAR(255) NOT NULL,
+    DeliveryAddress VARCHAR(255) NOT NULL,
+    ProductName VARCHAR(255) NOT NULL,
+    Category VARCHAR(255) NOT NULL,
+    Price DECIMAL(10, 2) NOT NULL,
+    Size VARCHAR(255) NOT NULL,
+    PRIMARY KEY (OrderID, ProductID)
+);

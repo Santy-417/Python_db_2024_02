@@ -1,8 +1,6 @@
 import streamlit as st
 import pandas as pd
-from student_db_helper import insert_students_in_bulk
-
-
+from merged_data import insert_merged_data_in_bulk
 
 def _extract_data_from_excel(excel_file):
     """Extracts data from the provided Excel file."""
@@ -40,6 +38,11 @@ if uploaded_files:
                     
                     st.write("Merged DataFrame")
                     st.write(merged_df)
+
+                    order_id = 1  
+                    insert_merged_data_in_bulk(merged_df, order_id)
+
+                    st.write("Data inserted into the database successfully.")
             else:
                 st.write("Error: One or both files could not be read.")
     else:

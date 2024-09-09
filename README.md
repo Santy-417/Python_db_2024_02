@@ -29,3 +29,9 @@ Create file *requirements.txt*
     deactivate
     rm -rf venv
 ```
+
+## Steps to remove files uploaded to github with gitignore
+```bash
+    git rm --cached <archivo>
+    git rm --cached -r
+```

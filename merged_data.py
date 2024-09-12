@@ -17,7 +17,7 @@ def insert_merged_data_in_bulk(df, order_id, table_name='merged_data'):
         )
 
         if connection.is_connected():
-            st.write("Connected to the database successfully.")
+            st.success("Connected to the database successfully.")
             cursor = connection.cursor()
 
             insert_query = f"""
@@ -31,10 +31,10 @@ def insert_merged_data_in_bulk(df, order_id, table_name='merged_data'):
             
             connection.commit()
 
-            st.write(f"{cursor.rowcount} rows inserted successfully.")
+            st.success(f"{cursor.rowcount} rows inserted successfully.")
 
     except mysql.connector.Error as e:
-        st.write(f"Error: {e}")
+        st.error(f"Error: {e}")
         if connection:
             connection.rollback()
 

@@ -3,7 +3,6 @@ import pandas as pd
 from merged_data import insert_merged_data_in_bulk
 
 def _extract_data_from_excel(excel_file):
-    """Extracts data from the provided Excel file."""
     try:
         df = pd.read_excel(excel_file)
         return df
@@ -16,7 +15,7 @@ st.title("Upload and Merge Excel Files")
 uploaded_files = st.file_uploader("Upload Excel files", type=["xls", "xlsx"], accept_multiple_files=True)
 
 if uploaded_files:
-    st.write(f"{len(uploaded_files)} files were uploaded successfully.")
+    st.success(f"{len(uploaded_files)} files were uploaded successfully.")
     
     if len(uploaded_files) == 2:
         if uploaded_files[0].name == uploaded_files[1].name:
@@ -41,8 +40,8 @@ if uploaded_files:
                     order_id = 1  
                     insert_merged_data_in_bulk(merged_df, order_id)
 
-                    st.write("Data inserted into the database successfully.")
+                    st.success("Data inserted into the database successfully.")
             else:
-                st.write("Error: One or both files could not be read.")
+                st.error("Error: One or both files could not be read.")
     else:
-        st.write("Please upload exactly 2 files to be able to merge the files.")
+        st.info("Please upload exactly 2 files to be able to merge the files.")

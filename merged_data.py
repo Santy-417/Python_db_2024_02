@@ -28,7 +28,6 @@ def insert_merged_data_in_bulk(df, order_id, table_name='merged_data'):
             merged_data = df[['OrderID', 'ProductID', 'OrderDate', 'Quantity', 'CustomerName', 'DeliveryAddress', 'ProductName', 'Category', 'Price', 'Size']].to_records(index=False).tolist()
 
             cursor.executemany(insert_query, merged_data)
-            
             connection.commit()
 
             st.success(f"{cursor.rowcount} rows inserted successfully.")

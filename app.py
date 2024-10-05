@@ -7,7 +7,7 @@ def _extract_data_from_excel(excel_file):
         df = pd.read_excel(excel_file)
         return df
     except Exception as e:
-        st.write(f"Error reading the Excel file: {e}")
+        st.error(f"Error reading the Excel file: {e}")
         return None
 
 st.title("Upload and Merge Excel Files")
@@ -19,7 +19,7 @@ if uploaded_files:
     
     if len(uploaded_files) == 2:
         if uploaded_files[0].name == uploaded_files[1].name:
-            st.write("Error: Both files are the same. Please upload two different files.")
+            st.error("Error: Both files are the same. Please upload two different files.")
         else:
             df1 = _extract_data_from_excel(uploaded_files[0])
             df2 = _extract_data_from_excel(uploaded_files[1]) 
@@ -34,7 +34,7 @@ if uploaded_files:
                 if st.button("Merge DataFrames"):
                     merged_df = pd.merge(df1, df2, on='ProductID', how='inner')
                     
-                    st.write("Merged DataFrame")
+                    st.success("Merged DataFrame")
                     st.write(merged_df)
 
                     order_id = 1  
